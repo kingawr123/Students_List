@@ -1,8 +1,16 @@
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException{
+
+        File file = new File("attendanceList.txt");
+        PrintWriter printWriter = new PrintWriter(file);
 
         Student[] listOfStudents = new Student[2];
 
@@ -15,14 +23,15 @@ public class Main {
 
             System.out.println((i + 1) + ". " + listOfStudents[i].secendName + " " + listOfStudents[i].name);
 
-            Scanner scanner = new Scanner(System.in);
+            Scanner scannerToAttendance = new Scanner(System.in);
 
-            if (scanner.next().trim().charAt(0) == 'Y') {
+            if (scannerToAttendance.next().trim().toLowerCase().charAt(0) == 'y') {
                 listOfStudents[i].attendance = true;
             } else listOfStudents[i].attendance = false;
         }
 
         showList(listOfStudents);
+        InputFile(printWriter, listOfStudents);
 
     }
 
@@ -35,5 +44,12 @@ public class Main {
         for (int i = 0; i < array.length; i++) {
             System.out.println((i + 1) + ". " + array[i].secendName + " " + array[i].name + " " + AttendentsCharacter(array[i].attendance));
         }
+    }
+
+    private static void InputFile(PrintWriter printWriter, Student[] array){
+        for (int i = 0; i < array.length; i++) {
+            printWriter.println((i + 1) + ". " + array[i].secendName + " " + array[i].name + " " + AttendentsCharacter(array[i].attendance));
+        }
+        printWriter.close();
     }
 }
